@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="HeaderBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor" >#FFFFFF</item>
+
+    </style>
+
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="TextViewTitle">
+        <item name="android:textSize">@dimen/txt_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+
+    <style name="TextViewNormal">
+        <item name="android:textSize">@dimen/txt_normal</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <dimen name="txt_normal">18sp</dimen>
+    <dimen name="txt_title">21sp</dimen>
+    <color name="colorBlack">#000000</color>
+</resources>
