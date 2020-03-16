@@ -12,6 +12,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.homescreen.R;
 import com.example.homescreen.adapter.ListAdapter;
 import com.example.homescreen.model.HeaderModel;
 import com.example.homescreen.model.Items;
@@ -20,6 +21,7 @@ import com.example.homescreen.network.ApiCleint;
 import com.example.homescreen.room_db.DBRepository;
 import com.example.homescreen.shared_preferences.SharedPreferenceUtils;
 import com.example.homescreen.shared_preferences.SharedValues;
+import com.example.homescreen.utils.NetworkServiceManager;
 
 import java.util.List;
 
@@ -132,36 +134,38 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
     private void getListFromApi() {
-        Observable<HeaderModel> companyListObservable = apiInterface.getItems();
-        companyListObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HeaderModel>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        if (NetworkServiceManager.getInstance(mContext).isNetworkAvailable()) {
+            Observable<HeaderModel> companyListObservable = apiInterface.getItems();
+            companyListObservable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<HeaderModel>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(HeaderModel headerModel) {
-                        if(headerModel!=null && headerModel.getRows()!=null){
-                            mPreference.setValue(SharedValues.TOOLBAR_TITLE, headerModel.getTitle());
-                            toolbar_title.set(headerModel.getTitle());
-//                            itemList.setValue(headerModel.getRows());
-//                            setItemList(itemList);
-                            insertToDB(headerModel.getRows());
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Responseget", e + " ------error");
-                    }
+                        @Override
+                        public void onNext(HeaderModel headerModel) {
+                            if (headerModel != null && headerModel.getRows() != null) {
+                                mPreference.setValue(SharedValues.TOOLBAR_TITLE, headerModel.getTitle());
+                                toolbar_title.set(headerModel.getTitle());
+                                insertToDB(headerModel.getRows());
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("Responseget", e + " ------error");
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        }else{
+            Toast.makeText(mContext, mContext.getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
